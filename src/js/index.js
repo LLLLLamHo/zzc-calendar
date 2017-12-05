@@ -8,9 +8,16 @@ import createCalendar from './calendar.js';
     }
 
     $.fn.extend( {
-        picker: function () {
-
+        picker: function (pickupDate,returnDate) {
             let $target = $( this );
+            let startTime = new Date();
+            let endDate = new Date();
+            let options = {
+                startTime: startTime,
+                endTime: new Date( endDate.setFullYear( endDate.getFullYear() + 1 ) ),
+                pickupDate: pickupDate ? new Date(pickupDate).getTime() : null,
+                returnDate: returnDate ? new Date(returnDate).getTime() : null
+            }
 
             //绑定打开事件
             $( this ).on( 'click', function ( e ) {
@@ -19,13 +26,13 @@ import createCalendar from './calendar.js';
                     // 新打开
                     if ( $( '.picker-box' ).length == 0 ) {
                         //传入到this中
-                        showcalendar( this );
+                        showcalendar( this, options );
                     // 切换显示
                     } else {
                         closeCalendar( e, () => {
                             setTimeout( () => {
                                 let $target = $( this );
-                                showcalendar( this );
+                                showcalendar( this, options );
                             }, 24 );
 
                         } );
@@ -36,8 +43,8 @@ import createCalendar from './calendar.js';
 
 
             // 显示日历
-            function showcalendar(_this) { 
-                let calendar = createCalendar();
+            function showcalendar(_this, options) { 
+                let calendar = createCalendar(options);
                 let calendarTop = $( _this ).outerHeight();
                 $( _this ).addClass( 'show-picker' );
                 $( _this ).append( calendar );

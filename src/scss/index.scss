@@ -1,7 +1,8 @@
 @import "./base.scss";
-.show-picker{
+.show-picker {
     position: relative!important;
 }
+
 .picker-box {
     border: 1px solid #DDE0E6;
     position: absolute;
@@ -9,10 +10,11 @@
     z-index: 999;
     width: 446px;
     display: none;
-    &.show{
+    &.show {
         display: block;
     }
     .picker-content-box {
+        background: #fff;
         overflow: hidden;
         width: 100%;
         .picker-content {
@@ -62,30 +64,38 @@
             }
             .picker-body {
                 padding: 10px;
-                height: 174px;
                 width: 203px;
                 background: #fff;
-                .picker-week-box {
+                height: 100%;
+                table {
                     height: 20px;
                     color: #333333;
                     font-size: 10px;
-                    table {
-                        width: 100%;
-                        th {
-                            line-height: 20px;
-                            text-align: center;
-                            &:last-child {
-                                color: #FF5A82;
-                            }
-                            &:first-child {
-                                color: #FF5A82;
-                            }
+                    width: 100%;
+                    th {
+                        line-height: 20px;
+                        text-align: center;
+                        &:last-child {
+                            color: #FF5A82;
                         }
-                        td {
-                            text-align: center;
-                            color: #333333;
-                            font-size: 12px;
-                            line-height: 24px;
+                        &:first-child {
+                            color: #FF5A82;
+                        }
+                    }
+                    td {
+                        text-align: center;
+                        color: #333333;
+                        font-size: 12px;
+                        line-height: 24px;
+                        &.gone {
+                            color: #CCCCCC;
+                        }
+                        &.start,&.end {
+                            background: #4E7CDD;
+                            color: #fff;
+                        }
+                        &.active {
+                            background: rgba(134, 171, 255, .15);
                         }
                     }
                 }

@@ -199,6 +199,7 @@ body {
   .picker-box.show {
     display: block; }
   .picker-box .picker-content-box {
+    background: #fff;
     overflow: hidden;
     width: 100%; }
     .picker-box .picker-content-box .picker-content {
@@ -243,27 +244,33 @@ body {
             opacity: .5; }
       .picker-box .picker-content-box .picker-content .picker-body {
         padding: 10px;
-        height: 174px;
         width: 203px;
-        background: #fff; }
-        .picker-box .picker-content-box .picker-content .picker-body .picker-week-box {
+        background: #fff;
+        height: 100%; }
+        .picker-box .picker-content-box .picker-content .picker-body table {
           height: 20px;
           color: #333333;
-          font-size: 10px; }
-          .picker-box .picker-content-box .picker-content .picker-body .picker-week-box table {
-            width: 100%; }
-            .picker-box .picker-content-box .picker-content .picker-body .picker-week-box table th {
-              line-height: 20px;
-              text-align: center; }
-              .picker-box .picker-content-box .picker-content .picker-body .picker-week-box table th:last-child {
-                color: #FF5A82; }
-              .picker-box .picker-content-box .picker-content .picker-body .picker-week-box table th:first-child {
-                color: #FF5A82; }
-            .picker-box .picker-content-box .picker-content .picker-body .picker-week-box table td {
-              text-align: center;
-              color: #333333;
-              font-size: 12px;
-              line-height: 24px; }
+          font-size: 10px;
+          width: 100%; }
+          .picker-box .picker-content-box .picker-content .picker-body table th {
+            line-height: 20px;
+            text-align: center; }
+            .picker-box .picker-content-box .picker-content .picker-body table th:last-child {
+              color: #FF5A82; }
+            .picker-box .picker-content-box .picker-content .picker-body table th:first-child {
+              color: #FF5A82; }
+          .picker-box .picker-content-box .picker-content .picker-body table td {
+            text-align: center;
+            color: #333333;
+            font-size: 12px;
+            line-height: 24px; }
+            .picker-box .picker-content-box .picker-content .picker-body table td.gone {
+              color: #CCCCCC; }
+            .picker-box .picker-content-box .picker-content .picker-body table td.start, .picker-box .picker-content-box .picker-content .picker-body table td.end {
+              background: #4E7CDD;
+              color: #fff; }
+            .picker-box .picker-content-box .picker-content .picker-body table td.active {
+              background: rgba(134, 171, 255, 0.15); }
   .picker-box .picker-tips {
     border-top: 1px solid #DDE0E6;
     background: #fff;
