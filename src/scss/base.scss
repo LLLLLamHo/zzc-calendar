@@ -1,0 +1,235 @@
+@charset "UTF-8";
+//
+// Reset
+// -------------------------------------------------
+// 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体
+html {
+    color: #000;
+    background: #fff;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+// 内外边距通常让各个浏览器样式的表现位置不同
+body,
+div,
+span,
+applet,
+object,
+iframe,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+fieldset,
+form,
+label,
+legend,
+input,
+textarea,
+button,
+hr,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline
+}
+
+// ------------------------
+// HTML5
+// ------------------------
+// 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG)
+// article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {  display: block;  }
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block
+}
+
+// HTML5 媒体文件跟 img 保持一致
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+[hidden] {
+    display: none;
+}
+
+// IE bug fixed: th 不继承 text-align*/
+th {
+    text-align: inherit;
+}
+
+// ie6 7 8(q) bug 显示为行内表现
+iframe {
+    display: block;
+}
+
+// 去掉 firefox 下此元素的边框
+abbr,
+acronym {
+    font-variant: normal;
+}
+
+// 一致的 del 样式
+del {
+    text-decoration: line-through;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+    font-style: normal;
+    font-weight: 400;
+}
+
+// 去掉列表前的标识, li 会继承
+ol,
+ul {
+    list-style: none
+}
+
+// 来自yahoo, 让标题都自定义, 适应多个系统应用
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 400;
+}
+
+q,
+blockquote {
+    quotes: none
+}
+
+a img {
+    border: none
+}
+
+%reset-sub-and-sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+// 正常链接 未访问
+a {
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+// 默认不显示下划线，保持页面简洁
+ins {
+    text-decoration: none;
+}
+
+// 代码字体
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    font-size: 1em;
+}
+
+body {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../dist/css/picker.css">
+    <style>
+        body {
+            background: #e1e1e1;
+            height: 1000px;
+        }
+        .box{
+            font-size: 24px;
+            color:#4E7CDD;
+            width: 200px;
+            background: #fff;
+            line-height: 24px;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box" id="pickup"><p>取车时间</p></div>
+    </br>
+    <div class="box" id="return"><p>还车时间</p></div>
+    </br>
+
+
+    
+
+    <script src="../dist/js/jquery-1.7.2.min.js"></script>
+    <script src="../dist/js/picker.js"></script>
+    <script>
+        
+
+        $('#pickup').picker();
+        $('#return').picker();
+
+    </script>
+</body>
