@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -70,79 +80,255 @@
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Picker = void 0;
+
 __webpack_require__(1);
 
-var _calendar = _interopRequireDefault(__webpack_require__(2));
+var _calendar = __webpack_require__(2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-(function ($) {
-  if (!$) {
-    throw new Error('请引入jquery都window');
-  }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  $.fn.extend({
-    picker: function picker(pickupDate, returnDate) {
-      var $target = $(this);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Picker =
+/*#__PURE__*/
+function () {
+  function Picker(opt) {
+    _classCallCheck(this, Picker);
+
+    this.init(opt);
+  } //初始picker
+
+
+  _createClass(Picker, [{
+    key: "init",
+    value: function init(opt) {
+      this.pickerElem = opt.pickerElem ? opt.pickerElem : null;
+      this.returnElem = opt.returnElem ? opt.returnElem : null;
+      this.success = opt.success ? opt.success : function () {};
       var startTime = new Date();
       var endDate = new Date();
-      var options = {
+      this.calendar = null;
+      this.leftData = null;
+      this.rightData = null;
+      this.dateArr = null;
+      this.leftIndex = 0;
+      this.rightIndex = 1; //选择的时间
+
+      this.currPickupDate = opt.pickupDay ? new Date(opt.pickupDay).getTime() : null;
+      this.currReturnDate = opt.returnDay ? new Date(opt.returnDay).getTime() : null;
+      this.options = {
         startTime: startTime,
         endTime: new Date(endDate.setFullYear(endDate.getFullYear() + 1)),
-        pickupDate: pickupDate ? new Date(pickupDate).getTime() : null,
-        returnDate: returnDate ? new Date(returnDate).getTime() : null //绑定打开事件
-
+        pickupDate: this.currPickupDate,
+        returnDate: this.currReturnDate
       };
-      $(this).on('click', function (e) {
-        var _this2 = this;
+      this.initEvent({
+        pickerElem: this.pickerElem,
+        returnElem: this.returnElem
+      });
+    } //初始事件
 
-        var target = e.target || e.srcElement;
+  }, {
+    key: "initEvent",
+    value: function initEvent(elems) {
+      var _this = this;
 
-        if ($(target).closest($target).length > 0) {
-          // 新打开
-          if ($('.picker-box').length == 0) {
+      for (var key in elems) {
+        elems[key] && $(elems[key]).on('click', function (event) {
+          event.stopPropagation();
+          var $pickerBox = $('.picker-box');
+          var $this = $(this); // 新打开
+
+          if ($pickerBox.length == 0 && !$this.hasClass('show-picker')) {
             //传入到this中
-            showcalendar(this, options); // 切换显示
-          } else {
-            closeCalendar(e, function () {
-              setTimeout(function () {
-                var $target = $(_this2);
-                showcalendar(_this2, options);
-              }, 24);
-            });
-          }
-        }
-      }); // 显示日历
-
-      function showcalendar(_this, options) {
-        var calendar = (0, _calendar.default)(options);
-        var calendarTop = $(_this).outerHeight();
-        $(_this).addClass('show-picker');
-        $(_this).append(calendar);
-        $('.picker-box').css({
-          top: calendarTop + 'px'
-        }).addClass('show'); // 点击除target以外的都会关闭
-
-        setTimeout(function () {
-          $('body').on('click', closeCalendar);
-        }, 24);
-      } // 关闭日历
-
-
-      function closeCalendar(e, callback) {
-        var target = e.target || e.srcElement;
-
-        if ($(target).closest($target).length == 0) {
-          $('.picker-box').remove();
-          $target.removeClass('show-picker');
-        }
-
-        $('body').off('click', closeCalendar);
-        callback instanceof Function && callback();
+            _this.showcalendar($this);
+          } //再次点击关闭
+          else if ($this.hasClass('show-picker')) {
+              $pickerBox.remove();
+              $this.removeClass('show-picker');
+            } // 切换显示
+            else {
+                _this.closeCalendar(function () {
+                  _this.showcalendar($this);
+                });
+              }
+        });
       }
+    } //打开picker
+
+  }, {
+    key: "showcalendar",
+    value: function showcalendar(target) {
+      var data = (0, _calendar.createCalendar)(this.options);
+      this.calendar = data.calendarHTML;
+      this.leftData = data.leftData;
+      this.rightData = data.rightData;
+      this.dateArr = data.dateArr;
+      this.leftIndex = data.leftIndex;
+      ;
+      this.rightIndex = data.rightIndex;
+      this.currOpenTarget = target;
+
+      var _this = this; //插入到dom中
+
+
+      var calendarTop = $(target).outerHeight();
+      $(target).addClass('show-picker');
+      $(target).append(this.calendar);
+      var $pickerBox = $('.picker-box');
+      $pickerBox.css({
+        top: calendarTop + 'px'
+      }).addClass('show'); // 点击除target以外的都会关闭
+
+      $('body').on('click', this.closeCalendar.bind(this)); // 绑定picker内部事件
+
+      $pickerBox.on('click', function (event) {
+        event.stopPropagation();
+        var target = event.target || event.srcElement;
+
+        _this.pickerEvent(target);
+      });
+    } //设置日期
+
+  }, {
+    key: "setDate",
+    value: function setDate(target) {
+      var $target = $(target); //如果点击占位符则跳过
+
+      var isPerch = $target.attr('data-perch');
+
+      if (isPerch == 'false') {
+        var data = $target.attr('data-date'); //当前选择的取还日期都有，则全部清除样式
+
+        if (this.currPickupDate != null && this.currReturnDate != null) {
+          this.clearCurrSelectClass(); //记录取日期
+
+          this.currPickupDate = new Date(data).getTime();
+          this.currReturnDate = null;
+          $target.addClass('start');
+          this.moveToReturnElem();
+        } //当有选择取时间，没有还的时候
+        else if (this.currPickupDate != null && this.currReturnDate == null) {
+            //如果当前还的时间比取还早那么这次选择改为选中取时间
+            if (new Date(data).getTime() < this.currPickupDate) {
+              this.clearCurrSelectClass(); //记录取日期
+
+              this.currPickupDate = new Date(data).getTime();
+              this.currReturnDate = null;
+              $target.addClass('start');
+            } //设置取时间
+            else {
+                this.currReturnDate = new Date(data).getTime(); //设置active
+
+                this.renderPortion(this.currPickupDate, this.currReturnDate); //保存记录选择的日期
+
+                this.updateDate();
+                this.closeCalendar();
+              } //默认设置取    
+
+          } else {
+            this.currPickupDate = new Date(data).getTime();
+            this.currReturnDate = null;
+            $target.addClass('start');
+          }
+      }
+    } //picker内部事件
+
+  }, {
+    key: "pickerEvent",
+    value: function pickerEvent(target) {
+      if (target.tagName == 'TD') {
+        this.setDate(target);
+      } else if ($(target).hasClass('arrow') && !$(target).hasClass('disable')) {
+        var direction = $(target).attr('data-direction');
+
+        if (direction == 'left') {
+          this.leftIndex = --this.leftIndex;
+          this.rightIndex = --this.rightIndex;
+        } else {
+          this.leftIndex = ++this.leftIndex;
+          this.rightIndex = ++this.rightIndex;
+        }
+
+        this.renderPortion(this.currPickupDate, this.currReturnDate, this.leftIndex, this.rightIndex);
+      }
+    } //移动到还时间出发元素上
+
+  }, {
+    key: "moveToReturnElem",
+    value: function moveToReturnElem() {
+      if (this.returnElem && !$(this.returnElem).hasClass('show-picker')) {
+        $(this.pickerElem).removeClass('show-picker');
+        var calendarTop = $(this.returnElem).outerHeight();
+        var $pickerBox = $('.picker-box');
+        $(this.returnElem).append($pickerBox).addClass('show-picker');
+        $pickerBox.css({
+          top: calendarTop + 'px'
+        });
+        this.currOpenTarget = this.returnElem;
+      }
+    } //清除当前选择的日期样式
+
+  }, {
+    key: "clearCurrSelectClass",
+    value: function clearCurrSelectClass() {
+      $('.picker-content-box td').removeClass('start').removeClass('active').removeClass('end');
+    } //设置active时间
+
+  }, {
+    key: "renderPortion",
+    value: function renderPortion(pDate, rDate, leftIndex, rightIndex) {
+      var data = (0, _calendar.createPortionCalendar)({
+        startTime: this.options.startTime,
+        endTime: this.options.endTime,
+        pickupDate: this.currPickupDate,
+        returnDate: this.currReturnDate,
+        leftData: this.leftData,
+        rightData: this.rightData,
+        leftIndex: leftIndex ? leftIndex : null,
+        rightIndex: rightIndex ? rightIndex : null
+      });
+      this.dateArr = data.dateArr;
+      this.leftIndex = data.leftIndex;
+      ;
+      this.rightIndex = data.rightIndex;
+      $('.picker-box').html(data.calendarHTML);
+    } //更新日期
+
+  }, {
+    key: "updateDate",
+    value: function updateDate() {
+      this.options.pickupDate = this.currPickupDate;
+      this.options.returnDate = this.currReturnDate;
+      this.success({
+        pickupDate: this.currPickupDate,
+        returnDate: this.currReturnDate
+      });
+    } //关闭picker
+
+  }, {
+    key: "closeCalendar",
+    value: function closeCalendar(callback) {
+      this.currOpenTarget.removeClass('show-picker'); //还远设定
+
+      this.currPickupDate = this.options.pickupDate;
+      this.currReturnDate = this.options.returnDate;
+      $('.picker-box').remove();
+      $('body').off('click', this.closeCalendar);
+      callback instanceof Function && callback();
     }
-  });
-})(window.jQuery || window.Zepto || window.$);
+  }]);
+
+  return Picker;
+}();
+
+exports.Picker = Picker;
 
 /***/ }),
 /* 1 */
@@ -160,27 +346,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = _default;
+exports.createPortionCalendar = createPortionCalendar;
+exports.createCalendar = createCalendar;
 
-var _createDateArr = _interopRequireDefault(__webpack_require__(7));
+var _createDateArr = _interopRequireDefault(__webpack_require__(3));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // 查找对应年月的数据
 function findAssignDate(list, year, month) {
   var leftData = list[0],
-      rightData = list[1];
+      rightData = list[1],
+      leftIndex = 0,
+      rightIndex = 1;
 
   for (var i = 0, len = list.length; i < len; i++) {
     if (list[i].year == year && list[i].month == month) {
       leftData = list[i];
       rightData = list[i + 1];
+      leftIndex = i;
+      rightIndex = i + 1;
+    } //当到最后，检查是否出现undefined，当出现的话，代表当前选择时间是12月，但是dateArr最后也是12月，需要往前移动一位
+
+
+    if (i == len - 1 && !rightData) {
+      leftData = list[i - 1];
+      rightData = list[i];
+      leftIndex = i - 1;
+      rightIndex = i;
     }
   }
 
   return {
     leftData: leftData,
-    rightData: rightData
+    rightData: rightData,
+    leftIndex: leftIndex,
+    rightIndex: rightIndex
   };
 } //设置样式class
 
@@ -188,7 +389,9 @@ function findAssignDate(list, year, month) {
 function setClass(data) {
   var className = '';
 
-  if (data.isGone) {
+  if (data.date == '') {
+    className += 'perch ';
+  } else if (data.isGone) {
     className += 'gone ';
   } else {
     if (data.isStart) {
@@ -205,6 +408,12 @@ function setClass(data) {
   }
 
   return className;
+} //创建对应的日期元素
+
+
+function createTD(data, currRow, index) {
+  var html = "<td data-perch=".concat(currRow[index].content == "" ? true : false, " data-date=\"").concat(data.year, "-").concat(data.month, "-").concat(currRow[index].date, "\" class=\"").concat(setClass(currRow[index]), "\">").concat(currRow[index].content, "</td>");
+  return html;
 } //创建元素
 
 
@@ -216,39 +425,65 @@ function createDateList(data) {
 
   for (var i = 0; i < row; i++) {
     var currRow = list.splice(0, 7);
-    html += "\n            <tr>\n                <td class=\"".concat(setClass(currRow[0]), "\">").concat(currRow[0].content, "</td>\n                <td class=\"").concat(setClass(currRow[1]), "\">").concat(currRow[1].content, "</td>\n                <td class=\"").concat(setClass(currRow[2]), "\">").concat(currRow[2].content, "</td>\n                <td class=\"").concat(setClass(currRow[3]), "\">").concat(currRow[3].content, "</td>\n                <td class=\"").concat(setClass(currRow[4]), "\">").concat(currRow[4].content, "</td>\n                <td class=\"").concat(setClass(currRow[5]), "\">").concat(currRow[5].content, "</td>\n                <td class=\"").concat(setClass(currRow[6]), "\">").concat(currRow[6].content, "</td>\n            </tr>\n        ");
+    html += "\n            <tr>\n                ".concat(createTD(data, currRow, 0), "\n                ").concat(createTD(data, currRow, 1), "\n                ").concat(createTD(data, currRow, 2), "\n                ").concat(createTD(data, currRow, 3), "\n                ").concat(createTD(data, currRow, 4), "\n                ").concat(createTD(data, currRow, 5), "\n                ").concat(createTD(data, currRow, 6), "\n            </tr>\n        ");
     rowNo++;
   }
 
   return html;
-} // let arr = createDateArr( startTime, endTime, pickupDay, returnDay );
+} //局部渲染
 
 
-function _default(options) {
+function createPortionCalendar(options) {
   var dateArr = (0, _createDateArr.default)(options.startTime, options.endTime, options.pickupDate, options.returnDate); //默认用前两个月渲染
 
-  var leftData = dateArr[0];
-  var rightData = dateArr[1]; // 如果有pickupDate和returnDate，则渲染对应的那两个月份，否则则渲染[0][1]这两个月份
+  var leftData = options.leftData,
+      rightData = options.rightData,
+      leftIndex = options.leftIndex ? options.leftIndex : 0,
+      rightIndex = options.rightIndex ? options.rightIndex : 0;
+  var year = new Date(options.pickupDate).getFullYear();
+  var month = new Date(options.pickupDate).getMonth() + 1;
+  var result = findAssignDate(dateArr, year, month);
+  leftData = options.leftIndex ? dateArr[options.leftIndex] : result.leftData;
+  leftIndex = options.leftIndex ? options.leftIndex : result.leftIndex;
+  rightData = options.rightIndex ? dateArr[options.rightIndex] : result.rightData;
+  rightIndex = options.rightIndex ? options.rightIndex : result.rightIndex;
+  var calendarHTML = "\n        <div class=\"picker-content-box\">\n            <div class=\"picker-content picker-content-left\">\n                <!-- \u5934\u90E8 -->\n                <div class=\"picker-header\">\n                    <div data-direction=\"left\" class=\"left-arrow arrow ".concat(leftIndex <= 1 && 'disable', "\"></div>\n                    <h5>").concat(leftData.year, "-").concat(leftData.month < 10 ? "0".concat(leftData.month) : leftData.month, "</h5>\n                </div>\n                <!-- \u4E3B\u4F53 -->\n                <div class=\"picker-body\">\n                    <!-- \u661F\u671F -->\n                    <table cellspacing=\"0px\">\n                        <thead>\n                            <tr>\n                                <th>\u65E5</th>\n                                <th>\u4E00</th>\n                                <th>\u4E8C</th>\n                                <th>\u4E09</th>\n                                <th>\u56DB</th>\n                                <th>\u4E94</th>\n                                <th>\u516D</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            ").concat(createDateList(leftData), "\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n            <div class=\"picker-content picker-content-right\">\n                <!-- \u5934\u90E8 -->\n                <div class=\"picker-header\">\n                    <div data-direction=\"right\" class=\"right-arrow arrow ").concat(rightIndex >= dateArr.length - 1 && 'disable', "\"></div>\n                    <h5>").concat(rightData.year, "-").concat(rightData.month < 10 ? "0".concat(rightData.month) : rightData.month, "</h5>\n                </div>\n                <!-- \u4E3B\u4F53 -->\n                <div class=\"picker-body\">\n                    <!-- \u661F\u671F -->\n                    <table cellspacing=\"0px\">\n                        <thead>\n                            <tr>\n                                <th>\u65E5</th>\n                                <th>\u4E00</th>\n                                <th>\u4E8C</th>\n                                <th>\u4E09</th>\n                                <th>\u56DB</th>\n                                <th>\u4E94</th>\n                                <th>\u516D</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            ").concat(createDateList(rightData), "\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"picker-tips\">\n            <p>\n                <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAm1JREFUSA21Vj1s00AUvnd2nEqFCaaIoagDCGYWRiYQEh0Y6Z8qJgaQAnSAgXQoQwFLMDBV0JJ2ZAgSohNjF2ZADBEgoUww0FIpduw83nexjUPspKTE0ume7333vfPde9+ZVJ+Hry4ea3nBFDNfVESTirlk4EQNsetE9LpQtGu0uvItj4ayHLywWPL8YEmcs6x4W8hrFtP7tmU3gNdhUAqJT0uQKVJ0lpV6UXTse/RsxfjTnD0BmnPlSxRyVUBbjmXfofUH9fSEv22euz3ph8F9WcQF1mp6bN19lcZ0BWjOlK8T87JSNF/ccF+mgYNsb7p8WSleY6K7Y1X3SYxPAkQr3yRbn3PWHr2LAf/S+/M3z3DQfssWXYm/xATAnvt+66OsfCFv5Txza9wnvoGADtNjqj7cywpuvoTUc6dgn8SZaIBwoNJt5ZEbjApdbreX0TyxMZb1GA7mNxGnspGKfjOYlQM9lTXhzxgdlz2OXmHnP0gOPww/CPeSNnkuqTgoWyxWFdnCr2gdOz8AuJDe4LajIqrlwzuewoa7LdbEIFzil9oBt0aFoogSRx+Dr1UOofWBJC7DKdwa5R9XaOLNMEDs7/784u3sfN5PEMMp3CaLMvh6hlp7uyeY1RE56KOwewA5A9iiBrQlxz/0sOEEN1TRCNfQVNkTIzGsa0guVDEbdoBRKK1wa6PnkFxRxQPQdU0FF2Qc3BqXBfTcSG4XbPgXcIET3CaLcFkI3fmO5GYTF8YPfyJSP6SSv8PORomuQbblbog4FcXA/ch1nP/0tPIrnpfuc+U6Bo30wkmCjPLKjIOM9NKPg6D/H78tvwFLXGokZbzqrgAAAABJRU5ErkJggg==\"/>\n                \u79DF\u671F\u4EE5\u5929\u4E3A\u5355\u4F4D\uFF0C24\u5C0F\u65F6\u4E3A\u4E00\u5929\uFF0C\u4E0D\u6EE124\u5C0F\u65F6\u7684\u63091\u5929\u8BA1\u7B97\n            </p>\n        </div>");
+  return {
+    calendarHTML: calendarHTML,
+    dateArr: dateArr,
+    leftIndex: leftIndex,
+    rightIndex: rightIndex
+  };
+} //渲染全部
 
-  if (options.pickupDate && options.returnDate) {
-    var year = new Date(options.pickupDate).getFullYear();
-    var month = new Date(options.pickupDate).getMonth() + 1;
-    var result = findAssignDate(dateArr, year, month);
-    leftData = result.leftData;
-    rightData = result.rightData;
-  }
 
-  console.log(dateArr);
-  var calendarHTML = "\n        <div class=\"picker-box\">\n            <div class=\"picker-content-box\">\n                <div class=\"picker-content picker-content-left\">\n                    <!-- \u5934\u90E8 -->\n                    <div class=\"picker-header\">\n                        <div class=\"left-arrow arrow\"></div>\n                        <h5>".concat(leftData.year, "-").concat(leftData.month < 10 ? "0".concat(leftData.month) : leftData.month, "</h5>\n                    </div>\n                    <!-- \u4E3B\u4F53 -->\n                    <div class=\"picker-body\">\n                        <!-- \u661F\u671F -->\n                        <table cellspacing=\"0px\">\n                            <thead>\n                                <tr>\n                                    <th>\u65E5</th>\n                                    <th>\u4E00</th>\n                                    <th>\u4E8C</th>\n                                    <th>\u4E09</th>\n                                    <th>\u56DB</th>\n                                    <th>\u4E94</th>\n                                    <th>\u516D</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                ").concat(createDateList(leftData), "\n                            </tbody>\n                        </table>\n                    </div>\n    \n                </div>\n                <div class=\"picker-content picker-content-right\">\n                    <!-- \u5934\u90E8 -->\n                    <div class=\"picker-header\">\n                        <div class=\"right-arrow arrow\"></div>\n                        <h5>").concat(rightData.year, "-").concat(rightData.month < 10 ? "0".concat(rightData.month) : rightData.month, "</h5>\n                    </div>\n                    <!-- \u4E3B\u4F53 -->\n                    <div class=\"picker-body\">\n                        <!-- \u661F\u671F -->\n                        <table cellspacing=\"0px\">\n                            <thead>\n                                <tr>\n                                    <th>\u65E5</th>\n                                    <th>\u4E00</th>\n                                    <th>\u4E8C</th>\n                                    <th>\u4E09</th>\n                                    <th>\u56DB</th>\n                                    <th>\u4E94</th>\n                                    <th>\u516D</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                ").concat(createDateList(rightData), "\n                            </tbody>\n                        </table>\n                    </div>\n    \n                </div>\n            </div>\n            <div class=\"picker-tips\">\n                <p>\n                    <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAm1JREFUSA21Vj1s00AUvnd2nEqFCaaIoagDCGYWRiYQEh0Y6Z8qJgaQAnSAgXQoQwFLMDBV0JJ2ZAgSohNjF2ZADBEgoUww0FIpduw83nexjUPspKTE0ume7333vfPde9+ZVJ+Hry4ea3nBFDNfVESTirlk4EQNsetE9LpQtGu0uvItj4ayHLywWPL8YEmcs6x4W8hrFtP7tmU3gNdhUAqJT0uQKVJ0lpV6UXTse/RsxfjTnD0BmnPlSxRyVUBbjmXfofUH9fSEv22euz3ph8F9WcQF1mp6bN19lcZ0BWjOlK8T87JSNF/ccF+mgYNsb7p8WSleY6K7Y1X3SYxPAkQr3yRbn3PWHr2LAf/S+/M3z3DQfssWXYm/xATAnvt+66OsfCFv5Txza9wnvoGADtNjqj7cywpuvoTUc6dgn8SZaIBwoNJt5ZEbjApdbreX0TyxMZb1GA7mNxGnspGKfjOYlQM9lTXhzxgdlz2OXmHnP0gOPww/CPeSNnkuqTgoWyxWFdnCr2gdOz8AuJDe4LajIqrlwzuewoa7LdbEIFzil9oBt0aFoogSRx+Dr1UOofWBJC7DKdwa5R9XaOLNMEDs7/784u3sfN5PEMMp3CaLMvh6hlp7uyeY1RE56KOwewA5A9iiBrQlxz/0sOEEN1TRCNfQVNkTIzGsa0guVDEbdoBRKK1wa6PnkFxRxQPQdU0FF2Qc3BqXBfTcSG4XbPgXcIET3CaLcFkI3fmO5GYTF8YPfyJSP6SSv8PORomuQbblbog4FcXA/ch1nP/0tPIrnpfuc+U6Bo30wkmCjPLKjIOM9NKPg6D/H78tvwFLXGokZbzqrgAAAABJRU5ErkJggg==\"/>\n                    \u79DF\u671F\u4EE5\u5929\u4E3A\u5355\u4F4D\uFF0C24\u5C0F\u65F6\u4E3A\u4E00\u5929\uFF0C\u4E0D\u6EE124\u5C0F\u65F6\u7684\u63091\u5929\u8BA1\u7B97\n                </p>\n            </div>\n        </div>");
-  return calendarHTML;
+function createCalendar(options) {
+  var dateArr = (0, _createDateArr.default)(options.startTime, options.endTime, options.pickupDate, options.returnDate); //默认用前两个月渲染
+
+  var leftData = dateArr[0],
+      rightData = dateArr[1],
+      leftIndex = 0,
+      rightIndex = 0;
+  var year = new Date(options.pickupDate).getFullYear();
+  var month = new Date(options.pickupDate).getMonth() + 1;
+  var result = findAssignDate(dateArr, year, month);
+  leftData = result.leftData;
+  rightData = result.rightData;
+  leftIndex = result.leftIndex;
+  rightIndex = result.rightIndex;
+  var calendarHTML = "\n        <div class=\"picker-box\">\n            <div class=\"picker-content-box\">\n                <div class=\"picker-content picker-content-left\">\n                    <!-- \u5934\u90E8 -->\n                    <div class=\"picker-header\">\n                        <div data-direction=\"left\" class=\"left-arrow arrow ".concat(leftIndex <= 1 && 'disable', "\"></div>\n                        <h5>").concat(leftData.year, "-").concat(leftData.month < 10 ? "0".concat(leftData.month) : leftData.month, "</h5>\n                    </div>\n                    <!-- \u4E3B\u4F53 -->\n                    <div class=\"picker-body\">\n                        <!-- \u661F\u671F -->\n                        <table cellspacing=\"0px\">\n                            <thead>\n                                <tr>\n                                    <th>\u65E5</th>\n                                    <th>\u4E00</th>\n                                    <th>\u4E8C</th>\n                                    <th>\u4E09</th>\n                                    <th>\u56DB</th>\n                                    <th>\u4E94</th>\n                                    <th>\u516D</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                ").concat(createDateList(leftData), "\n                            </tbody>\n                        </table>\n                    </div>\n    \n                </div>\n                <div class=\"picker-content picker-content-right\">\n                    <!-- \u5934\u90E8 -->\n                    <div class=\"picker-header\">\n                        <div data-direction=\"right\" class=\"right-arrow arrow ").concat(rightIndex >= dateArr.length - 1 && 'disable', "\"></div>\n                        <h5>").concat(rightData.year, "-").concat(rightData.month < 10 ? "0".concat(rightData.month) : rightData.month, "</h5>\n                    </div>\n                    <!-- \u4E3B\u4F53 -->\n                    <div class=\"picker-body\">\n                        <!-- \u661F\u671F -->\n                        <table cellspacing=\"0px\">\n                            <thead>\n                                <tr>\n                                    <th>\u65E5</th>\n                                    <th>\u4E00</th>\n                                    <th>\u4E8C</th>\n                                    <th>\u4E09</th>\n                                    <th>\u56DB</th>\n                                    <th>\u4E94</th>\n                                    <th>\u516D</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                ").concat(createDateList(rightData), "\n                            </tbody>\n                        </table>\n                    </div>\n    \n                </div>\n            </div>\n            <div class=\"picker-tips\">\n                <p>\n                    <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAm1JREFUSA21Vj1s00AUvnd2nEqFCaaIoagDCGYWRiYQEh0Y6Z8qJgaQAnSAgXQoQwFLMDBV0JJ2ZAgSohNjF2ZADBEgoUww0FIpduw83nexjUPspKTE0ume7333vfPde9+ZVJ+Hry4ea3nBFDNfVESTirlk4EQNsetE9LpQtGu0uvItj4ayHLywWPL8YEmcs6x4W8hrFtP7tmU3gNdhUAqJT0uQKVJ0lpV6UXTse/RsxfjTnD0BmnPlSxRyVUBbjmXfofUH9fSEv22euz3ph8F9WcQF1mp6bN19lcZ0BWjOlK8T87JSNF/ccF+mgYNsb7p8WSleY6K7Y1X3SYxPAkQr3yRbn3PWHr2LAf/S+/M3z3DQfssWXYm/xATAnvt+66OsfCFv5Txza9wnvoGADtNjqj7cywpuvoTUc6dgn8SZaIBwoNJt5ZEbjApdbreX0TyxMZb1GA7mNxGnspGKfjOYlQM9lTXhzxgdlz2OXmHnP0gOPww/CPeSNnkuqTgoWyxWFdnCr2gdOz8AuJDe4LajIqrlwzuewoa7LdbEIFzil9oBt0aFoogSRx+Dr1UOofWBJC7DKdwa5R9XaOLNMEDs7/784u3sfN5PEMMp3CaLMvh6hlp7uyeY1RE56KOwewA5A9iiBrQlxz/0sOEEN1TRCNfQVNkTIzGsa0guVDEbdoBRKK1wa6PnkFxRxQPQdU0FF2Qc3BqXBfTcSG4XbPgXcIET3CaLcFkI3fmO5GYTF8YPfyJSP6SSv8PORomuQbblbog4FcXA/ch1nP/0tPIrnpfuc+U6Bo30wkmCjPLKjIOM9NKPg6D/H78tvwFLXGokZbzqrgAAAABJRU5ErkJggg==\"/>\n                    \u79DF\u671F\u4EE5\u5929\u4E3A\u5355\u4F4D\uFF0C24\u5C0F\u65F6\u4E3A\u4E00\u5929\uFF0C\u4E0D\u6EE124\u5C0F\u65F6\u7684\u63091\u5929\u8BA1\u7B97\n                </p>\n            </div>\n        </div>");
+  return {
+    calendarHTML: calendarHTML,
+    leftData: leftData,
+    rightData: rightData,
+    dateArr: dateArr,
+    leftIndex: leftIndex,
+    rightIndex: rightIndex
+  };
 }
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -259,9 +494,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-var _reSetDay = _interopRequireDefault(__webpack_require__(8));
+var _reSetDay = _interopRequireDefault(__webpack_require__(4));
 
-var _checkDayIsActive = _interopRequireDefault(__webpack_require__(9));
+var _checkDayIsActive = _interopRequireDefault(__webpack_require__(5));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -448,7 +683,7 @@ function _default(starTime, endTime, pickupDay, returnDay) {
 }
 
 /***/ }),
-/* 8 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -472,7 +707,7 @@ function _default(time) {
 }
 
 /***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -496,3 +731,4 @@ function _default(pickupTime, returnTime, currTime) {
 
 /***/ })
 /******/ ]);
+});

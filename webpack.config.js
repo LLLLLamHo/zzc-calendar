@@ -12,6 +12,8 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         filename: 'js/[name].js',
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
     module: {
         rules: [

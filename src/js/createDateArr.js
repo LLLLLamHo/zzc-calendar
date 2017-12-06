@@ -128,7 +128,6 @@ function getMonthDayArray( time, dayCount, pickupDay, returnDay ) {
 
 //创建日期数组
 function createDayArr( starTime, endTime, pickupDay, returnDay ) {
-
     let starYear = parseInt( starTime.getFullYear() ),
         starMonth = parseInt( starTime.getMonth() ),
         endYear = parseInt( endTime.getFullYear() ),

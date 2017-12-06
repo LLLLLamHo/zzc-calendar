@@ -37,28 +37,46 @@
                     font-weight: bold;
                 }
                 .arrow {
-                    height: 8px;
-                    width: 8px;
                     position: absolute;
-                    margin: auto;
-                    border: 2px solid #4E7CDD;
-                    border-right: transparent;
-                    border-bottom: transparent;
-                    top: 0;
-                    bottom: 0;
+                    cursor: pointer;
+                    height: 31px;
+                    width: 31px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        height: 8px;
+                        width: 8px;
+                        position: absolute;
+                        margin: auto;
+                        border: 2px solid #4E7CDD;
+                        border-right: transparent;
+                        border-bottom: transparent;
+                        top: 0;
+                        bottom: 0;
+                    }
                 }
                 .left-arrow {
-                    left: 13px;
-                    transform: rotate(-45deg);
+                    left: 0;
+                    &::before {
+                        transform: rotate(-45deg);
+                        left: 13px;
+                    }
                     &.disable {
-                        opacity: .5;
+                        &::before {
+                            opacity: .5;
+                        }
                     }
                 }
                 .right-arrow {
-                    right: 13px;
-                    transform: rotate(135deg);
+                    right: 0;
+                    &::before {
+                        right: 13px;
+                        transform: rotate(135deg);
+                    }
                     &.disable {
-                        opacity: .5;
+                        &::before {
+                            opacity: .5;
+                        }
                     }
                 }
             }
@@ -83,19 +101,38 @@
                         }
                     }
                     td {
+                        cursor: pointer;
                         text-align: center;
                         color: #333333;
                         font-size: 12px;
                         line-height: 24px;
+                        &:hover {
+                            background: rgba(134, 171, 255, .15);
+                        }
+                        &.perch {
+                            &:hover {
+                                background: #fff;
+                            }
+                        }
                         &.gone {
                             color: #CCCCCC;
+                            &:hover {
+                                background: #fff;
+                            }
                         }
-                        &.start,&.end {
+                        &.start,
+                        &.end {
                             background: #4E7CDD;
                             color: #fff;
+                            &:hover {
+                                background: #4E7CDD;
+                            }
                         }
                         &.active {
                             background: rgba(134, 171, 255, .15);
+                            &:hover {
+                                background: rgba(134, 171, 255, .15);
+                            }
                         }
                     }
                 }

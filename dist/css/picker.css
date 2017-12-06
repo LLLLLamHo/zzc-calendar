@@ -219,28 +219,39 @@ body {
           font-size: 12px;
           font-weight: bold; }
         .picker-box .picker-content-box .picker-content .picker-header .arrow {
-          height: 8px;
-          width: 8px;
           position: absolute;
-          margin: auto;
-          border: 2px solid #4E7CDD;
-          border-right: transparent;
-          border-bottom: transparent;
-          top: 0;
-          bottom: 0; }
+          cursor: pointer;
+          height: 31px;
+          width: 31px; }
+          .picker-box .picker-content-box .picker-content .picker-header .arrow::before {
+            content: '';
+            display: block;
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            margin: auto;
+            border: 2px solid #4E7CDD;
+            border-right: transparent;
+            border-bottom: transparent;
+            top: 0;
+            bottom: 0; }
         .picker-box .picker-content-box .picker-content .picker-header .left-arrow {
-          left: 13px;
-          -webkit-transform: rotate(-45deg);
-              -ms-transform: rotate(-45deg);
-                  transform: rotate(-45deg); }
-          .picker-box .picker-content-box .picker-content .picker-header .left-arrow.disable {
+          left: 0; }
+          .picker-box .picker-content-box .picker-content .picker-header .left-arrow::before {
+            -webkit-transform: rotate(-45deg);
+                -ms-transform: rotate(-45deg);
+                    transform: rotate(-45deg);
+            left: 13px; }
+          .picker-box .picker-content-box .picker-content .picker-header .left-arrow.disable::before {
             opacity: .5; }
         .picker-box .picker-content-box .picker-content .picker-header .right-arrow {
-          right: 13px;
-          -webkit-transform: rotate(135deg);
-              -ms-transform: rotate(135deg);
-                  transform: rotate(135deg); }
-          .picker-box .picker-content-box .picker-content .picker-header .right-arrow.disable {
+          right: 0; }
+          .picker-box .picker-content-box .picker-content .picker-header .right-arrow::before {
+            right: 13px;
+            -webkit-transform: rotate(135deg);
+                -ms-transform: rotate(135deg);
+                    transform: rotate(135deg); }
+          .picker-box .picker-content-box .picker-content .picker-header .right-arrow.disable::before {
             opacity: .5; }
       .picker-box .picker-content-box .picker-content .picker-body {
         padding: 10px;
@@ -260,17 +271,28 @@ body {
             .picker-box .picker-content-box .picker-content .picker-body table th:first-child {
               color: #FF5A82; }
           .picker-box .picker-content-box .picker-content .picker-body table td {
+            cursor: pointer;
             text-align: center;
             color: #333333;
             font-size: 12px;
             line-height: 24px; }
+            .picker-box .picker-content-box .picker-content .picker-body table td:hover {
+              background: rgba(134, 171, 255, 0.15); }
+            .picker-box .picker-content-box .picker-content .picker-body table td.perch:hover {
+              background: #fff; }
             .picker-box .picker-content-box .picker-content .picker-body table td.gone {
               color: #CCCCCC; }
+              .picker-box .picker-content-box .picker-content .picker-body table td.gone:hover {
+                background: #fff; }
             .picker-box .picker-content-box .picker-content .picker-body table td.start, .picker-box .picker-content-box .picker-content .picker-body table td.end {
               background: #4E7CDD;
               color: #fff; }
+              .picker-box .picker-content-box .picker-content .picker-body table td.start:hover, .picker-box .picker-content-box .picker-content .picker-body table td.end:hover {
+                background: #4E7CDD; }
             .picker-box .picker-content-box .picker-content .picker-body table td.active {
               background: rgba(134, 171, 255, 0.15); }
+              .picker-box .picker-content-box .picker-content .picker-body table td.active:hover {
+                background: rgba(134, 171, 255, 0.15); }
   .picker-box .picker-tips {
     border-top: 1px solid #DDE0E6;
     background: #fff;

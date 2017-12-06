@@ -25,14 +25,25 @@
 <body>
 
     <div class="box" id="pickup">
-        <p>取车时间</p>
+        取车时间
     </div>
     </br>
     <div class="box" id="return">
-        <p>还车时间</p>
+        还车时间
     </div>
     </br>
+    </br>
+    </br>
+    </br>
+    </br>
 
+    <div class="box" id="pickup2">
+        取车时间2
+    </div>
+    </br>
+    <div class="box" id="return2">
+        还车时间2
+    </div>
 
 
 
@@ -41,10 +52,27 @@
     <script>
 
         
-        let pickupDay = new Date( '2017-12-15' );
-        let returnDay = new Date( '2017-12-19' );
+        var pickupDay = new Date( '2018-12-15' );
+        var returnDay = new Date( '2018-12-19' );
 
-        $( '#pickup' ).picker(pickupDay,returnDay);
-        $( '#return' ).picker(pickupDay,returnDay);
+        var picker = new Picker({
+            pickerElem : $( '#pickup' ),
+            returnElem : $( '#return' ),
+            pickupDay : pickupDay,
+            returnDay: returnDay,
+            success: function(result) {
+                console.log(result)
+            }
+        })
+
+        var picker2 = new Picker({
+            pickerElem : $( '#pickup2' ),
+            returnElem : $( '#return2' ),
+            pickupDay : null,
+            returnDay: null,
+            success: function(result) {
+                console.log(result)
+            }
+        })
     </script>
 </body>
