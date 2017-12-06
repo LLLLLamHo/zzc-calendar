@@ -278,7 +278,7 @@ function () {
   }, {
     key: "clearCurrSelectClass",
     value: function clearCurrSelectClass() {
-      $('.picker-content-box td').removeClass('start').removeClass('active').removeClass('end');
+      $('.picker-content-box td').removeClass('start active end');
     } //设置active时间
 
   }, {

@@ -173,7 +173,7 @@ export class Picker {
 
     //清除当前选择的日期样式
     clearCurrSelectClass() {
-        $( '.picker-content-box td' ).removeClass( 'start' ).removeClass( 'active' ).removeClass( 'end' );
+        $( '.picker-content-box td' ).removeClass( 'start active end' );
     }
 
     //设置active时间
