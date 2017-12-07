@@ -284,6 +284,10 @@ body {
               color: #CCCCCC; }
               .picker-box .picker-content-box .picker-content .picker-body table td.gone:hover {
                 background: #fff; }
+            .picker-box .picker-content-box .picker-content .picker-body table td.hover {
+              background: rgba(134, 171, 255, 0.15); }
+              .picker-box .picker-content-box .picker-content .picker-body table td.hover.gone, .picker-box .picker-content-box .picker-content .picker-body table td.hover.perch {
+                background: #fff; }
             .picker-box .picker-content-box .picker-content .picker-body table td.start, .picker-box .picker-content-box .picker-content .picker-body table td.end {
               background: #4E7CDD;
               color: #fff; }

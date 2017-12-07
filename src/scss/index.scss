@@ -120,6 +120,12 @@
                                 background: #fff;
                             }
                         }
+                        &.hover{
+                            background: rgba(134, 171, 255, .15);
+                            &.gone,&.perch {
+                                background:#fff;
+                            }
+                        }
                         &.start,
                         &.end {
                             background: #4E7CDD;

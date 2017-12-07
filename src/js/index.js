@@ -1,13 +1,10 @@
 import '../scss/index.scss';
-import { createCalendar, createPortionCalendar } from './calendar.js';
-
-export class Picker {
+import Calender from './Calender';
+export class Picker extends Calender {
     constructor( opt ) {
-        this.init( opt );
-    }
 
-    //初始picker
-    init( opt ) {
+        super( opt );
+
         this.pickerElem = opt.pickerElem ? opt.pickerElem : null;
         this.returnElem = opt.returnElem ? opt.returnElem : null;
         this.success = opt.success ? opt.success : function () { };
@@ -65,9 +62,30 @@ export class Picker {
         }
     }
 
+    //picker内部事件
+    pickerEvent( target ) {
+        if ( target.tagName == 'TD' ) {
+            this.clickDate( target );
+        }
+        else if ( $( target ).hasClass( 'arrow' ) && !$( target ).hasClass( 'disable' ) ) {
+            let direction = $( target ).attr( 'data-direction' );
+            if ( direction == 'left' ) {
+                this.leftIndex = --this.leftIndex;
+                this.rightIndex = --this.rightIndex;
+            } else {
+                this.leftIndex = ++this.leftIndex;
+                this.rightIndex = ++this.rightIndex;
+            }
+
+            this.updateCalender( this.currPickupDate, this.currReturnDate, this.leftIndex, this.rightIndex );
+        }
+    }
+
     //打开picker
     showcalendar( target ) {
-        let data = createCalendar( this.options );
+        let data = this.getCalendar( this.options );
+
+        //保存数据
         this.calendar = data.calendarHTML;
         this.leftData = data.leftData;
         this.rightData = data.rightData;
@@ -75,28 +93,38 @@ export class Picker {
         this.leftIndex = data.leftIndex;;
         this.rightIndex = data.rightIndex;
         this.currOpenTarget = target;
+
         let _this = this;
+        
         //插入到dom中
-        let calendarTop = $( target ).outerHeight();
-        $( target ).addClass( 'show-picker' );
-        $( target ).append( this.calendar );
+        this.render( target, this.calendar, function () {
+            //定位
+            this.setPickerIndex( target );
 
-        let $pickerBox = $( '.picker-box' );
-        $pickerBox.css( { top: calendarTop + 'px' } ).addClass( 'show' );
+            this.$pickerBox = $( '.picker-box' );
 
-        // 点击除target以外的都会关闭
-        $( 'body' ).on( 'click', this.closeCalendar.bind( this ) );
-        // 绑定picker内部事件
-        $pickerBox.on( 'click', function ( event ) {
-            event.stopPropagation();
-            let target = event.target || event.srcElement;
-            _this.pickerEvent( target );
+
+            // 点击除target以外的都会关闭
+            this.addEvent( $( 'body' )[0], 'click', this.closeCalendar.bind( this ) );
+            // 绑定picker内部点击事件
+            this.addEvent( this.$pickerBox[0], 'click', function ( event ) {
+                event.stopPropagation();
+                let target = event.target || event.srcElement;
+                _this.pickerEvent( target );
+            } );
         } );
-
     }
 
-    //设置日期
-    setDate( target ) {
+    //设置picker的位置
+    setPickerIndex( target ) {
+        let calendarTop = $( target ).outerHeight();
+        $( target ).addClass( 'show-picker' );
+        let $pickerBox = $( '.picker-box' );
+        $pickerBox.css( { top: calendarTop + 'px' } ).addClass( 'show' );
+    }
+
+    //点击日期
+    clickDate( target ) {
         let $target = $( target );
         //如果点击占位符则跳过
         let isPerch = $target.attr( 'data-perch' );
@@ -110,6 +138,7 @@ export class Picker {
                 this.currReturnDate = null;
                 $target.addClass( 'start' );
                 this.moveToReturnElem();
+                this.addEvent( this.$pickerBox[0], 'mousemove', this.mousemoveEvent);
             }
             //当有选择取时间，没有还的时候
             else if ( this.currPickupDate != null && this.currReturnDate == null ) {
@@ -122,11 +151,11 @@ export class Picker {
                     this.currReturnDate = null;
                     $target.addClass( 'start' );
                 }
-                //设置取时间
+                //设置还时间
                 else {
                     this.currReturnDate = new Date( data ).getTime();
                     //设置active
-                    this.renderPortion( this.currPickupDate, this.currReturnDate );
+                    this.updateCalender( this.currPickupDate, this.currReturnDate );
                     //保存记录选择的日期
                     this.updateDate();
                     this.closeCalendar();
@@ -140,45 +169,60 @@ export class Picker {
         }
     }
 
-    //picker内部事件
-    pickerEvent( target ) {
-        if ( target.tagName == 'TD' ) {
-            this.setDate( target );
-        }
-        else if ( $( target ).hasClass( 'arrow' ) && !$( target ).hasClass( 'disable' ) ) {
-            let direction = $( target ).attr( 'data-direction' );
-            if ( direction == 'left' ) {
-                this.leftIndex = --this.leftIndex;
-                this.rightIndex = --this.rightIndex;
-            } else {
-                this.leftIndex = ++this.leftIndex;
-                this.rightIndex = ++this.rightIndex;
+    //鼠标移动
+    mousemoveEvent( e ) { 
+        let target = e.target || e.srcElement;
+        if ( target.tagName == 'TD' && !$(target).hasClass('perch') && !$(target).hasClass('gone')) { 
+
+            let startElem = $( this ).find( '.start' )[0],
+                startTime = new Date($( startElem ).attr('data-date')).getTime(),   
+                endElem = $( target )[0],
+                endETime = new Date($( endElem ).attr('data-date')).getTime(),
+                tdList = $( this ).find( 'td' ),
+                len = tdList.length,
+                index = 0,
+                isHover = startElem ? false : true;//当没有开始元素，代表可能跨多个月份，则默认一开始未true
+            
+            //开始时间大于结束时间跳出循环
+            if ( startElem && endElem && startTime > endETime ) { 
+                $( '.picker-content-box td' ).removeClass( 'hover' );
+                return false;
+            }
+            
+            for ( index; index < len; index++ ) { 
+                if ( tdList[index] == startElem) { 
+                    isHover = true;
+                }
+                if ( tdList[index] == endElem) { 
+                    isHover = false;
+                }
+                if ( isHover ) {
+                    $( tdList[index] ).addClass( 'hover' );
+                } else { 
+                    $( tdList[index] ).removeClass( 'hover' );
+                }
+                
             }
 
-            this.renderPortion( this.currPickupDate, this.currReturnDate, this.leftIndex, this.rightIndex );
         }
     }
 
     //移动到还时间出发元素上
     moveToReturnElem() {
-        if ( this.returnElem && !$(this.returnElem).hasClass('show-picker')) {
-            $( this.pickerElem ).removeClass('show-picker');
+        if ( this.returnElem && !$( this.returnElem ).hasClass( 'show-picker' ) ) {
+            $( this.pickerElem ).removeClass( 'show-picker' );
             let calendarTop = $( this.returnElem ).outerHeight();
             let $pickerBox = $( '.picker-box' );
-            $( this.returnElem ).append( $pickerBox ).addClass('show-picker');
+            $( this.returnElem ).append( $pickerBox ).addClass( 'show-picker' );
             $pickerBox.css( { top: calendarTop + 'px' } );
             this.currOpenTarget = this.returnElem;
         }
     }
 
-    //清除当前选择的日期样式
-    clearCurrSelectClass() {
-        $( '.picker-content-box td' ).removeClass( 'start active end' );
-    }
+    //更新日历
+    updateCalender( pDate, rDate, leftIndex, rightIndex ) {
 
-    //设置active时间
-    renderPortion( pDate, rDate, leftIndex, rightIndex ) {
-        let data = createPortionCalendar( {
+        let data = this.updateCalendar( {
             startTime: this.options.startTime,
             endTime: this.options.endTime,
             pickupDate: this.currPickupDate,
@@ -188,6 +232,8 @@ export class Picker {
             leftIndex: leftIndex ? leftIndex : null,
             rightIndex: rightIndex ? rightIndex : null
         } );
+
+        //记录数据
         this.dateArr = data.dateArr;
         this.leftIndex = data.leftIndex;;
         this.rightIndex = data.rightIndex;
@@ -211,8 +257,14 @@ export class Picker {
         this.currPickupDate = this.options.pickupDate;
         this.currReturnDate = this.options.returnDate;
         $( '.picker-box' ).remove();
-        $( 'body' ).off( 'click', this.closeCalendar );
+        this.removeEvent( $( 'body' )[0], 'click', this.closeCalendar);
+        this.removeEvent( this.$pickerBox[0], 'mousemove', this.mousemoveEvent);
         callback instanceof Function && callback();
     }
 
+    //渲染
+    render( target, elem, callback ) {
+        $( target ).append( elem );
+        callback instanceof Function && callback.call(this);
+    }
 }
