@@ -101,15 +101,15 @@ export function createPortionCalendar( options ) {
     rightIndex = options.rightIndex ? options.rightIndex : result.rightIndex;
 
     let calendarHTML = `
-        <div class="picker-content-box">
-            <div class="picker-content picker-content-left">
+        <div class="zzc-calendar-content-box">
+            <div class="zzc-calendar-content zzc-calendar-content-left">
                 <!-- 头部 -->
-                <div class="picker-header">
+                <div class="zzc-calendar-header">
                     <div data-direction="left" class="left-arrow arrow ${leftIndex <= 1 && 'disable'}"></div>
                     <h5>${leftData.year}-${leftData.month < 10 ? `0${leftData.month}` : leftData.month}</h5>
                 </div>
                 <!-- 主体 -->
-                <div class="picker-body">
+                <div class="zzc-calendar-body">
                     <!-- 星期 -->
                     <table cellspacing="0px">
                         <thead>
@@ -130,14 +130,14 @@ export function createPortionCalendar( options ) {
                 </div>
 
             </div>
-            <div class="picker-content picker-content-right">
+            <div class="zzc-calendar-content zzc-calendar-content-right">
                 <!-- 头部 -->
-                <div class="picker-header">
+                <div class="zzc-calendar-header">
                     <div data-direction="right" class="right-arrow arrow ${rightIndex >= dateArr.length - 1 && 'disable'}"></div>
                     <h5>${rightData.year}-${rightData.month < 10 ? `0${rightData.month}` : rightData.month}</h5>
                 </div>
                 <!-- 主体 -->
-                <div class="picker-body">
+                <div class="zzc-calendar-body">
                     <!-- 星期 -->
                     <table cellspacing="0px">
                         <thead>
@@ -159,7 +159,7 @@ export function createPortionCalendar( options ) {
 
             </div>
         </div>
-        <div class="picker-tips">
+        <div class="zzc-calendar-tips">
             <p>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAm1JREFUSA21Vj1s00AUvnd2nEqFCaaIoagDCGYWRiYQEh0Y6Z8qJgaQAnSAgXQoQwFLMDBV0JJ2ZAgSohNjF2ZADBEgoUww0FIpduw83nexjUPspKTE0ume7333vfPde9+ZVJ+Hry4ea3nBFDNfVESTirlk4EQNsetE9LpQtGu0uvItj4ayHLywWPL8YEmcs6x4W8hrFtP7tmU3gNdhUAqJT0uQKVJ0lpV6UXTse/RsxfjTnD0BmnPlSxRyVUBbjmXfofUH9fSEv22euz3ph8F9WcQF1mp6bN19lcZ0BWjOlK8T87JSNF/ccF+mgYNsb7p8WSleY6K7Y1X3SYxPAkQr3yRbn3PWHr2LAf/S+/M3z3DQfssWXYm/xATAnvt+66OsfCFv5Txza9wnvoGADtNjqj7cywpuvoTUc6dgn8SZaIBwoNJt5ZEbjApdbreX0TyxMZb1GA7mNxGnspGKfjOYlQM9lTXhzxgdlz2OXmHnP0gOPww/CPeSNnkuqTgoWyxWFdnCr2gdOz8AuJDe4LajIqrlwzuewoa7LdbEIFzil9oBt0aFoogSRx+Dr1UOofWBJC7DKdwa5R9XaOLNMEDs7/784u3sfN5PEMMp3CaLMvh6hlp7uyeY1RE56KOwewA5A9iiBrQlxz/0sOEEN1TRCNfQVNkTIzGsa0guVDEbdoBRKK1wa6PnkFxRxQPQdU0FF2Qc3BqXBfTcSG4XbPgXcIET3CaLcFkI3fmO5GYTF8YPfyJSP6SSv8PORomuQbblbog4FcXA/ch1nP/0tPIrnpfuc+U6Bo30wkmCjPLKjIOM9NKPg6D/H78tvwFLXGokZbzqrgAAAABJRU5ErkJggg=="/>
                 租期以天为单位，24小时为一天，不满24小时的按1天计算
@@ -193,16 +193,16 @@ export function createCalendar( options ) {
     rightIndex = result.rightIndex;
 
     let calendarHTML = `
-        <div class="picker-box">
-            <div class="picker-content-box">
-                <div class="picker-content picker-content-left">
+        <div class="zzc-calendar-box">
+            <div class="zzc-calendar-content-box">
+                <div class="zzc-calendar-content zzc-calendar-content-left">
                     <!-- 头部 -->
-                    <div class="picker-header">
+                    <div class="zzc-calendar-header">
                         <div data-direction="left" class="left-arrow arrow ${leftIndex <= 1 && 'disable'}"></div>
                         <h5>${leftData.year}-${leftData.month < 10 ? `0${leftData.month}` : leftData.month}</h5>
                     </div>
                     <!-- 主体 -->
-                    <div class="picker-body">
+                    <div class="zzc-calendar-body">
                         <!-- 星期 -->
                         <table cellspacing="0px">
                             <thead>
@@ -223,14 +223,14 @@ export function createCalendar( options ) {
                     </div>
     
                 </div>
-                <div class="picker-content picker-content-right">
+                <div class="zzc-calendar-content zzc-calendar-content-right">
                     <!-- 头部 -->
-                    <div class="picker-header">
+                    <div class="zzc-calendar-header">
                         <div data-direction="right" class="right-arrow arrow ${rightIndex >= dateArr.length - 1 && 'disable'}"></div>
                         <h5>${rightData.year}-${rightData.month < 10 ? `0${rightData.month}` : rightData.month}</h5>
                     </div>
                     <!-- 主体 -->
-                    <div class="picker-body">
+                    <div class="zzc-calendar-body">
                         <!-- 星期 -->
                         <table cellspacing="0px">
                             <thead>
@@ -252,7 +252,7 @@ export function createCalendar( options ) {
     
                 </div>
             </div>
-            <div class="picker-tips">
+            <div class="zzc-calendar-tips">
                 <p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAm1JREFUSA21Vj1s00AUvnd2nEqFCaaIoagDCGYWRiYQEh0Y6Z8qJgaQAnSAgXQoQwFLMDBV0JJ2ZAgSohNjF2ZADBEgoUww0FIpduw83nexjUPspKTE0ume7333vfPde9+ZVJ+Hry4ea3nBFDNfVESTirlk4EQNsetE9LpQtGu0uvItj4ayHLywWPL8YEmcs6x4W8hrFtP7tmU3gNdhUAqJT0uQKVJ0lpV6UXTse/RsxfjTnD0BmnPlSxRyVUBbjmXfofUH9fSEv22euz3ph8F9WcQF1mp6bN19lcZ0BWjOlK8T87JSNF/ccF+mgYNsb7p8WSleY6K7Y1X3SYxPAkQr3yRbn3PWHr2LAf/S+/M3z3DQfssWXYm/xATAnvt+66OsfCFv5Txza9wnvoGADtNjqj7cywpuvoTUc6dgn8SZaIBwoNJt5ZEbjApdbreX0TyxMZb1GA7mNxGnspGKfjOYlQM9lTXhzxgdlz2OXmHnP0gOPww/CPeSNnkuqTgoWyxWFdnCr2gdOz8AuJDe4LajIqrlwzuewoa7LdbEIFzil9oBt0aFoogSRx+Dr1UOofWBJC7DKdwa5R9XaOLNMEDs7/784u3sfN5PEMMp3CaLMvh6hlp7uyeY1RE56KOwewA5A9iiBrQlxz/0sOEEN1TRCNfQVNkTIzGsa0guVDEbdoBRKK1wa6PnkFxRxQPQdU0FF2Qc3BqXBfTcSG4XbPgXcIET3CaLcFkI3fmO5GYTF8YPfyJSP6SSv8PORomuQbblbog4FcXA/ch1nP/0tPIrnpfuc+U6Bo30wkmCjPLKjIOM9NKPg6D/H78tvwFLXGokZbzqrgAAAABJRU5ErkJggg=="/>
                     租期以天为单位，24小时为一天，不满24小时的按1天计算

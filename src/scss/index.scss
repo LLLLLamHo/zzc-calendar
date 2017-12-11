@@ -1,9 +1,9 @@
 @import "./base.scss";
-.show-picker {
+.J-zzc-show-calendar {
     position: relative!important;
 }
 
-.picker-box {
+.zzc-calendar-box {
     border: 1px solid #DDE0E6;
     position: absolute;
     left: 0;
@@ -13,11 +13,11 @@
     &.show {
         display: block;
     }
-    .picker-content-box {
+    .zzc-calendar-content-box {
         background: #fff;
         overflow: hidden;
         width: 100%;
-        .picker-content {
+        .zzc-calendar-content {
             width: 223px;
             &-left {
                 float: left;
@@ -25,7 +25,7 @@
             &-right {
                 float: right;
             }
-            .picker-header {
+            .zzc-calendar-header {
                 height: 31px;
                 background: #F0F1F3;
                 position: relative;
@@ -80,7 +80,7 @@
                     }
                 }
             }
-            .picker-body {
+            .zzc-calendar-body {
                 padding: 10px;
                 width: 203px;
                 background: #fff;
@@ -145,7 +145,7 @@
             }
         }
     }
-    .picker-tips {
+    .zzc-calendar-tips {
         border-top: 1px solid #DDE0E6;
         background: #fff;
         padding: 6px;

@@ -186,44 +186,44 @@ body {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden; }
 
-.show-picker {
+.J-zzc-show-calendar {
   position: relative !important; }
 
-.picker-box {
+.zzc-calendar-box {
   border: 1px solid #DDE0E6;
   position: absolute;
   left: 0;
   z-index: 999;
   width: 446px;
   display: none; }
-  .picker-box.show {
+  .zzc-calendar-box.show {
     display: block; }
-  .picker-box .picker-content-box {
+  .zzc-calendar-box .zzc-calendar-content-box {
     background: #fff;
     overflow: hidden;
     width: 100%; }
-    .picker-box .picker-content-box .picker-content {
+    .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content {
       width: 223px; }
-      .picker-box .picker-content-box .picker-content-left {
+      .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content-left {
         float: left; }
-      .picker-box .picker-content-box .picker-content-right {
+      .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content-right {
         float: right; }
-      .picker-box .picker-content-box .picker-content .picker-header {
+      .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header {
         height: 31px;
         background: #F0F1F3;
         position: relative; }
-        .picker-box .picker-content-box .picker-content .picker-header h5 {
+        .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header h5 {
           line-height: 31px;
           text-align: center;
           color: #333333;
           font-size: 12px;
           font-weight: bold; }
-        .picker-box .picker-content-box .picker-content .picker-header .arrow {
+        .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .arrow {
           position: absolute;
           cursor: pointer;
           height: 31px;
           width: 31px; }
-          .picker-box .picker-content-box .picker-content .picker-header .arrow::before {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .arrow::before {
             content: '';
             display: block;
             height: 8px;
@@ -235,77 +235,77 @@ body {
             border-bottom: transparent;
             top: 0;
             bottom: 0; }
-        .picker-box .picker-content-box .picker-content .picker-header .left-arrow {
+        .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .left-arrow {
           left: 0; }
-          .picker-box .picker-content-box .picker-content .picker-header .left-arrow::before {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .left-arrow::before {
             -webkit-transform: rotate(-45deg);
                 -ms-transform: rotate(-45deg);
                     transform: rotate(-45deg);
             left: 13px; }
-          .picker-box .picker-content-box .picker-content .picker-header .left-arrow.disable::before {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .left-arrow.disable::before {
             opacity: .5; }
-        .picker-box .picker-content-box .picker-content .picker-header .right-arrow {
+        .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .right-arrow {
           right: 0; }
-          .picker-box .picker-content-box .picker-content .picker-header .right-arrow::before {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .right-arrow::before {
             right: 13px;
             -webkit-transform: rotate(135deg);
                 -ms-transform: rotate(135deg);
                     transform: rotate(135deg); }
-          .picker-box .picker-content-box .picker-content .picker-header .right-arrow.disable::before {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-header .right-arrow.disable::before {
             opacity: .5; }
-      .picker-box .picker-content-box .picker-content .picker-body {
+      .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body {
         padding: 10px;
         width: 203px;
         background: #fff;
         height: 100%; }
-        .picker-box .picker-content-box .picker-content .picker-body table {
+        .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table {
           height: 20px;
           color: #333333;
           font-size: 10px;
           width: 100%; }
-          .picker-box .picker-content-box .picker-content .picker-body table th {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table th {
             line-height: 20px;
             text-align: center; }
-            .picker-box .picker-content-box .picker-content .picker-body table th:last-child {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table th:last-child {
               color: #FF5A82; }
-            .picker-box .picker-content-box .picker-content .picker-body table th:first-child {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table th:first-child {
               color: #FF5A82; }
-          .picker-box .picker-content-box .picker-content .picker-body table td {
+          .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td {
             cursor: pointer;
             text-align: center;
             color: #333333;
             font-size: 12px;
             line-height: 24px; }
-            .picker-box .picker-content-box .picker-content .picker-body table td:hover {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td:hover {
               background: rgba(134, 171, 255, 0.15); }
-            .picker-box .picker-content-box .picker-content .picker-body table td.perch:hover {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.perch:hover {
               background: #fff; }
-            .picker-box .picker-content-box .picker-content .picker-body table td.gone {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.gone {
               color: #CCCCCC; }
-              .picker-box .picker-content-box .picker-content .picker-body table td.gone:hover {
+              .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.gone:hover {
                 background: #fff; }
-            .picker-box .picker-content-box .picker-content .picker-body table td.hover {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.hover {
               background: rgba(134, 171, 255, 0.15); }
-              .picker-box .picker-content-box .picker-content .picker-body table td.hover.gone, .picker-box .picker-content-box .picker-content .picker-body table td.hover.perch {
+              .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.hover.gone, .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.hover.perch {
                 background: #fff; }
-            .picker-box .picker-content-box .picker-content .picker-body table td.start, .picker-box .picker-content-box .picker-content .picker-body table td.end {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.start, .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.end {
               background: #4E7CDD;
               color: #fff; }
-              .picker-box .picker-content-box .picker-content .picker-body table td.start:hover, .picker-box .picker-content-box .picker-content .picker-body table td.end:hover {
+              .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.start:hover, .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.end:hover {
                 background: #4E7CDD; }
-            .picker-box .picker-content-box .picker-content .picker-body table td.active {
+            .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.active {
               background: rgba(134, 171, 255, 0.15); }
-              .picker-box .picker-content-box .picker-content .picker-body table td.active:hover {
+              .zzc-calendar-box .zzc-calendar-content-box .zzc-calendar-content .zzc-calendar-body table td.active:hover {
                 background: rgba(134, 171, 255, 0.15); }
-  .picker-box .picker-tips {
+  .zzc-calendar-box .zzc-calendar-tips {
     border-top: 1px solid #DDE0E6;
     background: #fff;
     padding: 6px; }
-    .picker-box .picker-tips p {
+    .zzc-calendar-box .zzc-calendar-tips p {
       color: #666666;
       font-size: 12px;
       text-align: center; }
-      .picker-box .picker-tips p img {
+      .zzc-calendar-box .zzc-calendar-tips p img {
         display: inline-block;
         vertical-align: middle;
         margin-top: -4px;
